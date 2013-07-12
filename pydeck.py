@@ -26,6 +26,7 @@ class Card:
         # ranks are the same... it's a tie
         return 0
 
+#The Deck shuffles and deals
 
 class Deck:
     def __init__(self):
@@ -69,6 +70,8 @@ class Deck:
             hand = hands[i % nHands] # whose turn is next?
             hand.addCard(card) # add the card to the hand
 
+#The Hand extends Deck (it is a type of deck). 
+
 class Hand(Deck):
     def __init__(self, name=""):
         self.cards = []
@@ -85,11 +88,14 @@ class Hand(Deck):
             self.cards.append(card)
 
 
+#The CardGame instantiates and shuffles a deck
+
 class CardGame:
     def __init__(self):
         self.deck = Deck()
         self.deck.shuffle()
 
+#The OldMaidHand is a type of hand specific to Old Maid
 
 class OldMaidHand(Hand):
     def removeMatches(self):
@@ -104,17 +110,19 @@ class OldMaidHand(Hand):
                 count = count + 1
         return count
 
+#The OldMaidGame is a type of Card Game specific to Old Maid
+
 class OldMaidGame(CardGame):
     def play(self, names):
         # remove Queen of Clubs
         self.deck.removeCard(Card(0,12))
 
-    # make a hand for each player
-    self.hands = []
-    for name in names :
-        self.hands.append(OldMaidHand(name))
+        # make a hand for each player
+        self.hands = []
+        for name in names :
+            self.hands.append(OldMaidHand(name))
 
-    # deal the cards
-    self.deck.deal(self.hands)
-    print "---------- Cards have been dealt"
-    self.printHands()
+        # deal the cards
+        self.deck.deal(self.hands)
+        print "---------- Cards have been dealt"
+        self.printHands()
