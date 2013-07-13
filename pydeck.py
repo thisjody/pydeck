@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 #The Card object currently configured for a 52 card playig deck
+#Change suitlist and rank list to create Tarot or other deck
 
 class Card:
 
