@@ -141,13 +141,17 @@ class OldMaidGame(CardGame):
             turn = (turn + 1) % numHands
 
         print "---------- Game is Over"
-        #self.printHands()
+        self.printHands()
 
     def removeAllMatches(self):
         count = 0
         for hand in self.hands:
             count = count + hand.removeMatches()
             return count
+
+    def printHands(self):
+        for hand in self.hands:
+            print hand
 
     def playOneTurn(self, i):
         if self.hands[i].isEmpty():
