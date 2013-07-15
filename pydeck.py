@@ -27,7 +27,7 @@ class Card:
         # ranks are the same... it's a tie
         return 0
 
-#The Deck shuffles and deals
+#The Deck shuffles, deals, and prints 
 
 class Deck:
     def __init__(self):
