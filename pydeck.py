@@ -55,6 +55,9 @@ class Deck:
             s = s + " "*i + str(self.cards[i]) + "\n"
         return s
 
+    #traverse the cards and swap each card with a random card. a card can be swapped
+    #with itself. we get the actual length of the list and store it in nCards. this
+    #accomodates decks of vsrious sizes as an uper bound.
     def shuffle(self):
         import random
         nCards = len(self.cards)
@@ -62,6 +65,8 @@ class Deck:
             j = random.randrange(i, nCards)
             self.cards[i], self.cards[j] = self.cards[j], self.cards[i]
 
+
+    #we use the in operator to check for deep equality
     def removeCard(self, card):
         if card in self.cards:
             self.cards.remove(card)
@@ -69,17 +74,20 @@ class Deck:
         else:
             return False
 
+    #pop a card from the bottom of the deck
     def popCard(self):
         return self.cards.pop()
 
+    #check for an empty deck
     def isEmpty(self):
         return (len(self.cards) == 0)
 
+    
     def deal(self, hands, nCards=999):
         nHands = len(hands)
         for i in range(nCards):
             if self.isEmpty(): break # break if out of cards
-            card = self.popCard() # take the top card
+            card = self.popCard() # take the bottom card
             hand = hands[i % nHands] # whose turn is next?
             hand.addCard(card) # add the card to the hand
 
