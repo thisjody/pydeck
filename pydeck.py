@@ -2,17 +2,25 @@
 #Object oriented card deck written in python
 #The Card object currently configured for a 52 card playig deck
 #Change suitlist and rank list to create Tarot or other deck
+#suitlist is indexed 0 to 3 begining with clubs (eg Clubs=0, Spades=3)
 
 class Card:
+    #class attributes for mapping - narf is a place holder for 0
+    #because it is more natural to index cards to their real values
+    #(eg Ace=1 rather than 0)
 
     suitList = ["Clubs", "Diamonds", "Hearts", "Spades"]
     rankList = ["narf", "Ace", "2", "3", "4", "5", "6", "7",
             "8", "9", "10", "Jack", "Queen", "King"]
 
+    #we initialize a default 2 of clubs if suit and rank are not declared
+    #explicitly when the card is instantiated
     def __init__(self, suit=0, rank=2):
         self.suit = suit
         self.rank = rank
-
+    
+    #the string method uses rank and suit to index into the ranklist and
+    #suit list to produce human readable card suits and ranks
     def __str__(self):
         return (self.rankList[self.rank] + " of " +
                 self.suitList[self.suit])
@@ -30,13 +38,17 @@ class Card:
 #The Deck shuffles, deals, and prints 
 
 class Deck:
+    #The deck is populated with a nested loop (0 to 3 and 1 to 14)
+    #each pass instatiates a new card with the current list rank and 
+    #appends it to the cards list
     def __init__(self):
         self.cards = []
         for suit in range(4):
             for rank in range(1, 14):
                 self.cards.append(Card(suit, rank))
 
-    
+    #the ""*i multiplies space times the current value of the i to create
+    #cascade when we print the cards. s is an accumulator gathering the cards
     def __str__(self):
         s = ""
         for i in range(len(self.cards)):
