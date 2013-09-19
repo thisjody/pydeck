@@ -91,38 +91,58 @@ class Deck:
             hand = hands[i % nHands] # whose turn is next?
             hand.addCard(card) # add the card to the hand
 
-#The Hand extends Deck (it is a type of deck). 
+#hand extends Deck (it is a type of deck). Both are a set of
+#cards and bothe support like oppertations (e.g. adding cards, removing cards)
+#a hand also supports operations that a deck does not (i.e. classifying a poker hand)
+#so we derive hand from deck vi inheritance.
 
 class Hand(Deck):
+    #we initialize and empty list to contain the card set and name to designate the 
+    #player to whom the specific hand is dealt - hand inherits printHand and overides
+    #__str__ from deck
     def __init__(self, name=""):
         self.cards = []
         self.name = name
 
+    #when overiding __str__ from deck it is legal to pass hand because hand is a type
+    #of deck. if the hand is not empty it passes itself to deck and invokes the __str__
+    #method of deck
     def __str__(self):
         s = "Hand " + self.name
         if self.isEmpty():
             return s + " is empty\n"
         else:
             return s + " contains\n" + Deck.__str__(self)
-
+    
+    #hand inherits remove from deck.
     def addCard(self,card):
             self.cards.append(card)
 
 
-#The CardGame instantiates and shuffles a deck
+#the CardGame instantiates and shuffles a deck it generally takes care of chores common
+#to all card games. othere card games (e.g.poker, old maid) can inherit from CardGame 
 
 class CardGame:
     def __init__(self):
         self.deck = Deck()
         self.deck.shuffle()
 
-#The OldMaidHand is a type of hand specific to Old Maid
+#the OldMaidHand is a type of Hand specific to old maid. it inherits from hand and adds
+#the removeMatches method. here is a sample invocation:
+#cg = CardGame()
+#h = OldMaidHand('jody')
+#cg.deck.deal([h], 26)
+#print h
+#h.removeMatches()
 
 class OldMaidHand(Hand):
     def removeMatches(self):
         count = 0
+        #copy the list for traversal - self.cards gets modified
         originalCards = self.cards[:]
         for card in originalCards:
+            #3 - card.suit turns a Club (suit 0) into a Spade (suit 3)
+            #and a Diamond (suit 1) into a Heart (suit 2).
             match = Card(3 - card.suit, card.rank)
             if match in self.cards:
                 self.cards.remove(card)
@@ -131,7 +151,11 @@ class OldMaidHand(Hand):
                 count = count + 1
         return count
 
-#The OldMaidGame is a type of Card Game specific to Old Maid
+#OldMaidGame is a type of Card Game specific to old maid. here is a 
+#sample invocation:
+#from pydeck import *
+#g = OldMaidGame()
+#g.play(['foo', 'bar', 'bash'])
 
 class OldMaidGame(CardGame):
     def play(self, names):
@@ -153,7 +177,7 @@ class OldMaidGame(CardGame):
         print "---------- Matches discarded, play begins"
         #self.printHands()
 
-        # play until all 50 cards are matched
+        # play until all 50 cards are matched.
         turn = 0
         numHands = len(self.hands)
         while matches < 25:
